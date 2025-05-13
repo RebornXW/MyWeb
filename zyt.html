@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>律师个人简介 - [周玉婷律师]</title>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+        .highlight-text {
+            color: #4D6BFE;
+        }
+        .highlight-bg {
+            background-color: #4D6BFE;
+        }
+        .highlight-border {
+            border-color: #4D6BFE;
+        }
+        .bento-box {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E7EB; /* Light gray border for boxes */
+            border-radius: 0.75rem; /* 12px */
+            padding: 1.5rem; /* 24px */
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes content around */
+        }
+        .bento-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .chinese-main {
+            font-weight: bold;
+        }
+        .english-sub {
+            font-size: 0.8em;
+            color: #6B7280; /* Gray-500 */
+            display: block;
+            margin-top: 0.25rem;
+        }
+        .icon-wrapper {
+            font-size: 2rem; /* 32px */
+            margin-bottom: 0.75rem; /* 12px */
+            color: #4D6BFE;
+            width: 48px; /* Fixed width for icon background */
+            height: 48px; /* Fixed height for icon background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem; /* 8px */
+            /* Subtle gradient background for icon wrapper */
+            background-image: linear-gradient(to bottom right, rgba(77, 107, 254, 0.15), rgba(77, 107, 254, 0.05));
+        }
+        .stat-number {
+            font-size: 4rem; /* 64px */
+            line-height: 1;
+            font-weight: 800; /* extrabold */
+            color: #4D6BFE;
+        }
+        .qr-code-placeholder {
+            width: 160px;
+            height: 160px;
+            background-color: #F3F4F6; /* Gray-100 for placeholder */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            margin: 1rem auto;
+        }
+        .qr-code-placeholder i {
+            font-size: 3rem;
+            color: #9CA3AF; /* Gray-400 */
+        }
+        /* Techy gradient border effect (example on a box) */
+        .tech-border-effect {
+            position: relative;
+            overflow: hidden; /* Important for pseudo-element */
+        }
+        .tech-border-effect::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.75rem; /* Match parent */
+            padding: 2px; /* Thickness of the gradient border */
+            background: linear-gradient(135deg, rgba(77,107,254,0.8), rgba(77,107,254,0.3));
+            -webkit-mask: /* Create a mask to show the border */
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; /* For Safari */
+            mask-composite: exclude; /* Standard */
+            z-index: -1; /* Place behind content */
+        }
+
+        /* Simple bar chart visualization */
+        .bar-chart-container {
+            display: flex;
+            align-items: flex-end;
+            height: 100px; /* Adjust as needed */
+            gap: 8px; /* Space between bars */
+            margin-top: 1rem;
+        }
+        .bar {
+            background-color: #4D6BFE;
+            width: 20px; /* Width of bars */
+            border-radius: 4px 4px 0 0; /* Rounded top */
+            transition: height 0.5s ease-out;
+        }
+        .bar-label {
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 4px;
+            color: #374151; /* Gray-700 */
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+    <div class="max-w-screen-xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+
+            <!-- Hero Section -->
+            <div class="bento-box md:col-span-2 lg:col-span-2 tech-border-effect">
+                <div>
+                    <h1 class="text-5xl sm:text-7xl chinese-main">周玉婷 <span class="text-xl sm:text-2xl font-normal text-gray-500 align-middle">ZHANG SAN</span></h1>
+                    <p class="text-2xl sm:text-3xl highlight-text font-semibold mt-2">还不资深的青年律师
+                        <span class="english-sub">Senior Partner Counsel</span>
+                    </p>
+                    <p class="mt-4 text-lg text-gray-700">专注于为客户提供卓越的法律解决方案。
+                        <span class="english-sub">Dedicated to providing excellent legal solutions for clients.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Years of Practice -->
+            <div class="bento-box items-center text-center">
+                <div class="icon-wrapper"><i class="fa-solid fa-award"></i></div>
+                <div>
+                    <p class="stat-number">2+</p>
+                    <p class="text-xl chinese-main mt-1">年执业经验</p>
+                    <p class="english-sub">Years of Practice</p>
+                </div>
+            </div>
+
+            <!-- Successful Cases -->
+            <div class="bento-box items-center text-center">
+                <div class="icon-wrapper"><i class="fa-solid fa-gavel"></i></div>
+                <div>
+                    <p class="stat-number">10+</p>
+                    <p class="text-xl chinese-main mt-1">成功案例</p>
+                    <p class="english-sub">Successful Cases</p>
+                </div>
+            </div>
+            
+            <!-- Law Firm & License -->
+            <div class="bento-box lg:col-span-2">
+                 <div class="icon-wrapper !mb-2"><i class="fas fa-building-columns"></i></div>
+                <div>
+                    <h2 class="text-2xl chinese-main">浙江泽厚律师事务所
+                        <span class="english-sub">Voyage Law Firm</span>
+                    </h2>
+                    <p class="mt-3 text-lg">执业证号: <span class="font-mono highlight-text">888888888888888</span></p>
+                    <p class="mt-1 text-gray-600 text-sm">
+                        <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>浙江省嘉兴市南湖区台升国际广场A座9楼
+                        <span class="english-sub">Voyage Tower A, 123 Jianguo Rd, Chaoyang, Beijing</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Practice Areas -->
+            <div class="bento-box lg:col-span-2">
+                <h2 class="text-2xl chinese-main mb-3">专业领域
+                    <span class="english-sub">Practice Areas</span>
+                </h2>
+                <ul class="space-y-3 text-lg">
+                    <li class="flex items-center"><i class="fas fa-file-contract fa-fw mr-3 highlight-text"></i>交通事故 <span class="english-sub ml-1">Corporate & M&A</span></li>
+                    <li class="flex items-center"><i class="fas fa-landmark fa-fw mr-3 highlight-text"></i>婚姻家庭 <span class="english-sub ml-1">Real Estate & Construction</span></li>
+                    <li class="flex items-center"><i class="fas fa-balance-scale fa-fw mr-3 highlight-text"></i>争议解决与诉讼 <span class="english-sub ml-1">Dispute Resolution & Litigation</span></li>
+                    <li class="flex items-center"><i class="fas fa-lightbulb fa-fw mr-3 highlight-text"></i>其他未知 <span class="english-sub ml-1">Intellectual Property</span></li>
+                </ul>
+            </div>
+
+            <!-- Contact: Phone & Email -->
+            <div class="bento-box tech-border-effect">
+                <div class="icon-wrapper"><i class="fas fa-phone-volume"></i></div>
+                <h2 class="text-2xl chinese-main">电话咨询</h2>
+                <a href="tel:13800138000" class="text-2xl highlight-text font-semibold hover:underline mt-1 block">18558235085</a>
+                <span class="english-sub">Call for Consultation</span>
+                 <hr class="my-4 border-gray-200">
+                <div class="icon-wrapper !mt-2"><i class="fas fa-envelope-open-text"></i></div>
+                <h2 class="text-2xl chinese-main">邮件联系</h2>
+                <a href="mailto:lawyer@example.com" class="text-lg highlight-text hover:underline mt-1 block">1485012285@qq.com</a>
+                <span class="english-sub">Email Inquiry</span>
+            </div>
+            
+            <!-- Contact: WeChat QR -->
+            <div class="bento-box text-center items-center">
+                <h2 class="text-2xl chinese-main">微信联系
+                    <span class="english-sub">WeChat Contact</span>
+                </h2>
+                <div class="qr-code-placeholder">
+                    <!-- 在这里替换成您的微信二维码图片 -->
+                    <!-- <img src="path/to/your-wechat-qr.png" alt="微信二维码" class="w-full h-full object-contain rounded-md"> -->
+                    <i class="fab fa-weixin"></i>
+                </div>
+                <p class="text-gray-600">扫码添加微信好友</p>
+            </div>
+
+            <!-- Simple Bar Chart Example (Data Visualization) -->
+            <div class="bento-box lg:col-span-2">
+                <h2 class="text-2xl chinese-main">案件类型分布 (示例)
+                    <span class="english-sub">Case Type Distribution (Example)</span>
+                </h2>
+                <div class="bar-chart-container" id="barChart">
+                    <div class="flex flex-col items-center">
+                        <div class="bar" data-value="70" style="height: 0%;"></div>
+                        <span class="bar-label">公司法</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bar" data-value="50" style="height: 0%;"></div>
+                        <span class="bar-label">合同</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bar" data-value="85" style="height: 0%;"></div>
+                        <span class="bar-label">知产</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bar" data-value="60" style="height: 0%;"></div>
+                        <span class="bar-label">劳动</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bar" data-value="40" style="height: 0%;"></div>
+                        <span class="bar-label">其他</span>
+                    </div>
+                </div>
+                 <p class="text-xs text-gray-400 mt-2 text-center">示意图，非真实数据比例</p>
+            </div>
+
+            <!-- About Me / Philosophy -->
+            <div class="bento-box lg:col-span-4">
+                 <div class="icon-wrapper !mb-2"><i class="fas fa-user-tie"></i></div>
+                <h2 class="text-2xl chinese-main">执业理念
+                    <span class="english-sub">My Philosophy</span>
+                </h2>
+                <p class="mt-2 text-gray-700 text-lg leading-relaxed">
+                    秉持专业、诚信、高效的原则，致力于维护客户的最大合法权益。我相信每一个案件都值得全力以赴，通过细致的法律分析和策略规划，为客户寻求最佳解决方案。
+                    <span class="english-sub mt-1">
+                        Adhering to the principles of professionalism, integrity, and efficiency, I am committed to safeguarding the maximum legal rights and interests of my clients. I believe every case deserves my full dedication, seeking optimal solutions through meticulous legal analysis and strategic planning.
+                    </span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simple animation for bar chart
+            const bars = document.querySelectorAll('#barChart .bar');
+            bars.forEach(bar => {
+                const value = bar.getAttribute('data-value');
+                // Animate height after a short delay for visual effect
+                setTimeout(() => {
+                    bar.style.height = value + '%';
+                }, 200);
+            });
+
+            // Optional: Simple fade-in for bento boxes
+            const bentoBoxes = document.querySelectorAll('.bento-box');
+            bentoBoxes.forEach((box, index) => {
+                box.style.opacity = '0';
+                box.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    box.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    box.style.opacity = '1';
+                    box.style.transform = 'translateY(0)';
+                }, index * 100); // Staggered animation
+            });
+        });
+    </script>
+</body>
+</html>

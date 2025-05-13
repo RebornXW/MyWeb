@@ -48,6 +48,17 @@
             margin-bottom: 15px;
             display: inline-block;
         }
+        .food-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -77,7 +88,9 @@
                 <div class="text-center mb-4">
                     <h2 id="recipeName" class="mb-3"></h2>
                     <div id="recipeCategory" class="mb-2"></div>
-                    <img id="recipeImage" src="" alt="食谱图片" class="recipe-image">
+                    <div id="imagePlaceholder" class="food-placeholder">
+                        <i class="bi bi-card-image" style="font-size: 3rem;"></i>
+                    </div>
                 </div>
                 <div class="ingredients mb-4">
                     <h3>食材</h3>
@@ -97,29 +110,286 @@
     </div>
 
     <script>
-        // GitHub API路径
-        const apiBase = 'https://api.github.com/repos/Anduin2017/HowToCook/contents/';
-        const rawBase = 'https://raw.githubusercontent.com/Anduin2017/HowToCook/main/';
-        
+        // 硬编码的菜谱数据，从HowToCook项目提取
+        const recipes = [
+            {
+                name: "糖醋里脊",
+                category: "meat_dish",
+                ingredients: [
+                    "里脊肉 500g",
+                    "醋 10g",
+                    "白糖 30g",
+                    "淀粉 50g",
+                    "鸡蛋 50g",
+                    "生抽 10ml",
+                    "料酒 20g",
+                    "蚝油 10g",
+                    "番茄酱 30ml",
+                    "白胡椒粉 5g",
+                    "食盐 10g"
+                ],
+                steps: [
+                    "腌肉：将猪里脊肉先切厚片，用刀背拍一拍，把肉拍松一点。切成一个手指头粗的条，加料酒，生抽，蚝油，食盐，白胡椒粉，一个鸡蛋，将肉用手抓匀，腌制 20 分钟以上。",
+                    "调酱：番茄酱+10g 醋+30g 白糖+150ml 清水，搅拌至糖融化，备用。",
+                    "裹粉：先把粉全部裹好再来炸，这样在炸的时候就不会手忙脚乱。准备一个大碗，里面放淀粉，把每一根肉条都满满裹上淀粉。",
+                    "炸制：油温 160 摄氏度下里脊，可以拿一个干筷子放在油里面试一下，周围冒小泡就可以下锅。",
+                    "炸到表面微黄可以捞出，全程中火。然后等油温升高到 200 摄氏度，把里脊倒进去重新炸一次，只需 40 秒，表皮就会很脆，马上捞出。",
+                    "裹酱：另外拿一个锅，锅里放底油，把调好的酱汁倒进去，煮到冒泡，把炸好的里脊放进去，翻炒，让每一根都裹上酱汁。",
+                    "下炸好的里脊肉翻炒，关火盛出。"
+                ]
+            },
+            {
+                name: "番茄炒蛋",
+                category: "vegetable_dish",
+                ingredients: [
+                    "番茄 300g",
+                    "鸡蛋 3个",
+                    "葱花 适量",
+                    "食用油 适量",
+                    "盐 适量",
+                    "糖 适量",
+                    "水淀粉 适量"
+                ],
+                steps: [
+                    "番茄切块，鸡蛋磕入碗中打散。",
+                    "热锅凉油，倒入鸡蛋液，用筷子快速划散，待鸡蛋凝固后盛出备用。",
+                    "锅中重新加油，放入番茄块，翻炒几下，加入少许盐和糖，炒至番茄出汁。",
+                    "倒入鸡蛋，翻炒均匀，最后放入葱花即可。"
+                ]
+            },
+            {
+                name: "红烧肉",
+                category: "meat_dish",
+                ingredients: [
+                    "五花肉 500g",
+                    "冰糖 30g",
+                    "八角 2个",
+                    "桂皮 1小块",
+                    "料酒 30ml",
+                    "生抽 30ml",
+                    "老抽 10ml",
+                    "姜片 适量",
+                    "葱段 适量",
+                    "干辣椒 适量（可选）",
+                    "盐 适量"
+                ],
+                steps: [
+                    "五花肉切成3cm见方的块，冷水下锅煮开，焯去血水。",
+                    "锅中放少量油，放入冰糖小火炒至融化变棕色。",
+                    "放入焯好的五花肉翻炒，使每一面都均匀上色。",
+                    "加入生抽、老抽、料酒，继续翻炒。",
+                    "加入八角、桂皮、姜片、葱段、干辣椒，加水没过肉。",
+                    "大火烧开后转小火慢炖1小时，至肉烂汤浓。",
+                    "调入盐，大火收汁即可。"
+                ]
+            },
+            {
+                name: "水煮肉片",
+                category: "meat_dish",
+                ingredients: [
+                    "猪里脊肉 300g",
+                    "青笋 100g（可用其他蔬菜替代）",
+                    "豆芽 100g",
+                    "干辣椒 15g",
+                    "花椒 10g",
+                    "蒜末 15g",
+                    "姜末 10g",
+                    "郫县豆瓣酱 20g",
+                    "生抽 15ml",
+                    "盐 适量",
+                    "料酒 10ml",
+                    "淀粉 25g",
+                    "食用油 适量"
+                ],
+                steps: [
+                    "里脊肉切薄片，加入料酒、盐、水淀粉抓匀，腌制15分钟入味。",
+                    "青笋切片，豆芽洗净；干辣椒剪段，花椒取适量。",
+                    "锅中放油，下入干辣椒、花椒炒香，盛出备用。",
+                    "锅中留底油，加入郫县豆瓣酱炒出红油。",
+                    "加入蒜末、姜末炒香，倒入适量清水煮开。",
+                    "下入青笋、豆芽略烫，捞出铺盘底。",
+                    "将腌好的肉片一片片放入沸水中，轻轻划散，煮至变色。",
+                    "将煮好的肉片和汤汁浇在蔬菜上，撒上炒好的干辣椒和花椒即可。"
+                ]
+            },
+            {
+                name: "宫保鸡丁",
+                category: "meat_dish",
+                ingredients: [
+                    "鸡胸肉 300g",
+                    "黄瓜 1根",
+                    "胡萝卜 1/2根",
+                    "干辣椒 10g",
+                    "花生米 50g",
+                    "花椒 5g",
+                    "葱姜蒜 适量",
+                    "食用油 适量",
+                    "盐 适量",
+                    "糖 10g",
+                    "醋 10ml",
+                    "生抽 15ml",
+                    "料酒 10ml",
+                    "淀粉 15g"
+                ],
+                steps: [
+                    "鸡胸肉切丁，加入盐、料酒、淀粉抓匀，腌制10分钟。",
+                    "黄瓜、胡萝卜切丁，葱姜蒜切末，干辣椒切段。",
+                    "花生米提前炸熟或炒熟备用。",
+                    "热锅冷油，放入干辣椒、花椒小火炒香。",
+                    "倒入腌好的鸡丁，大火快速翻炒至变色。",
+                    "加入黄瓜丁、胡萝卜丁继续翻炒。",
+                    "加入糖、醋、生抽、盐调味，最后加入花生米翻炒均匀即可。"
+                ]
+            },
+            {
+                name: "麻婆豆腐",
+                category: "vegetable_dish",
+                ingredients: [
+                    "豆腐 400g",
+                    "猪肉末 100g",
+                    "郫县豆瓣酱 20g",
+                    "蒜末 10g",
+                    "姜末 10g",
+                    "葱花 适量",
+                    "干辣椒面 10g",
+                    "花椒面 5g",
+                    "生抽 15ml",
+                    "料酒 10ml",
+                    "食用油 适量",
+                    "盐 适量",
+                    "淀粉 15g",
+                    "清水 适量"
+                ],
+                steps: [
+                    "豆腐切成小方块，放入清水中浸泡，加少许盐。",
+                    "热锅凉油，下入肉末翻炒至变色。",
+                    "加入郫县豆瓣酱、姜末、蒜末炒出香味。",
+                    "倒入适量清水，大火煮开。",
+                    "将豆腐小心放入锅中，避免碰撞破碎。",
+                    "加入生抽、料酒调味，中小火煮3分钟。",
+                    "水淀粉勾芡，撒上辣椒面、花椒面、葱花即可。"
+                ]
+            },
+            {
+                name: "回锅肉",
+                category: "meat_dish",
+                ingredients: [
+                    "五花肉 400g",
+                    "青椒 2个",
+                    "蒜苗 4根",
+                    "干辣椒 5个",
+                    "郫县豆瓣酱 30g",
+                    "料酒 15ml",
+                    "生抽 15ml",
+                    "白糖 5g",
+                    "花椒粉 3g",
+                    "食用油 适量"
+                ],
+                steps: [
+                    "五花肉切片，冷水下锅煮熟，捞出晾凉。",
+                    "青椒、蒜苗切段，干辣椒切段。",
+                    "锅中放油，中小火将五花肉煸炒至微黄出油。",
+                    "加入郫县豆瓣酱炒香。",
+                    "加入干辣椒段、花椒粉炒出香味。",
+                    "倒入料酒、生抽、白糖翻炒均匀。",
+                    "最后加入青椒、蒜苗快速翻炒几下即可出锅。"
+                ]
+            },
+            {
+                name: "蚂蚁上树",
+                category: "meat_dish",
+                ingredients: [
+                    "粉丝 100g",
+                    "猪肉末 150g",
+                    "干辣椒 10g",
+                    "葱姜蒜 适量",
+                    "郫县豆瓣酱 20g",
+                    "生抽 15ml",
+                    "料酒 10ml",
+                    "白糖 5g",
+                    "食用油 适量",
+                    "清水 适量"
+                ],
+                steps: [
+                    "粉丝提前用温水泡软。",
+                    "热锅凉油，下入肉末炒散。",
+                    "加入葱姜蒜、干辣椒末炒香。",
+                    "倒入郫县豆瓣酱炒出红油。",
+                    "加入生抽、料酒、白糖调味。",
+                    "倒入适量清水，大火烧开。",
+                    "下入泡好的粉丝，翻炒均匀。",
+                    "小火收汁，待粉丝吸收汤汁即可。"
+                ]
+            },
+            {
+                name: "糖醋排骨",
+                category: "meat_dish",
+                ingredients: [
+                    "排骨 500g",
+                    "白醋 30ml",
+                    "白糖 40g",
+                    "番茄酱 30g",
+                    "料酒 15ml",
+                    "姜片 适量",
+                    "葱段 适量",
+                    "八角 2个",
+                    "食用油 适量",
+                    "盐 适量",
+                    "淀粉 30g"
+                ],
+                steps: [
+                    "排骨洗净，切成小段，焯水去血水，捞出备用。",
+                    "排骨裹上一层淀粉。",
+                    "锅中放油烧至七成热，放入排骨炸至表面金黄，捞出控油。",
+                    "锅中留少量底油，放入姜片、葱段、八角爆香。",
+                    "加入番茄酱翻炒均匀。",
+                    "倒入适量清水，加入白醋、白糖、料酒。",
+                    "放入炸好的排骨，大火烧开后转小火慢炖15分钟。",
+                    "大火收汁，收至汤汁浓稠即可。"
+                ]
+            },
+            {
+                name: "鱼香肉丝",
+                category: "meat_dish",
+                ingredients: [
+                    "猪里脊肉 300g",
+                    "胡萝卜 1根",
+                    "青椒 1个",
+                    "木耳 50g",
+                    "姜末 15g",
+                    "蒜末 15g",
+                    "葱花 适量",
+                    "白糖 15g",
+                    "醋 20ml",
+                    "生抽 15ml",
+                    "盐 适量",
+                    "淀粉 20g",
+                    "食用油 适量"
+                ],
+                steps: [
+                    "猪里脊肉切丝，用盐、料酒、淀粉腌制10分钟。",
+                    "胡萝卜、青椒切丝，木耳泡发切丝。",
+                    "调制鱼香汁：白糖、醋、生抽、盐、水淀粉混合。",
+                    "热锅冷油，爆香姜末、蒜末。",
+                    "放入肉丝快速翻炒至变色。",
+                    "加入胡萝卜丝、青椒丝、木耳丝翻炒。",
+                    "倒入鱼香汁，翻炒均匀。",
+                    "待汤汁浓稠，撒上葱花即可出锅。"
+                ]
+            }
+        ];
+
         // 食谱分类映射
         const categoryMapping = {
-            'appetizer': '开胃菜',
-            'aquatic': '水产',
-            'breakfast': '早餐',
-            'drink': '饮品',
-            'dessert': '甜点',
+            'vegetable_dish': '素菜',
             'meat_dish': '荤菜',
-            'condiment': '调味料',
-            'pasta': '意面/米线',
-            'principal': '主食',
-            'salad': '沙拉',
-            'soup': '汤',
-            'semi_finished': '半成品',
+            'dessert': '甜点',
             'staple': '主食',
-            'vegetable_dish': '素菜'
+            'breakfast': '早餐',
+            'aquatic': '水产'
         };
 
-        // 辅助函数：处理API错误
+        // 辅助函数：处理错误
         function handleError(message) {
             document.getElementById('loadingIndicator').style.display = 'none';
             document.getElementById('errorText').textContent = message;
@@ -133,139 +403,22 @@
             document.getElementById('recipeDisplay').style.display = 'none';
             document.getElementById('loadingIndicator').style.display = 'flex';
         }
-
-        // 获取目录内容
-        async function fetchDirectory(path) {
-            try {
-                const response = await fetch(apiBase + path);
-                
-                if (!response.ok) {
-                    if (response.status === 403) {
-                        throw new Error('GitHub API速率限制，请稍后再试');
-                    } else {
-                        throw new Error('无法获取目录内容，状态码: ' + response.status);
-                    }
-                }
-                
-                return await response.json();
-            } catch (error) {
-                throw new Error('获取目录失败: ' + error.message);
-            }
-        }
-        
-        // 获取文件内容（从raw.githubusercontent.com获取内容）
-        async function fetchFileContent(path) {
-            try {
-                const response = await fetch(rawBase + path);
-                
-                if (!response.ok) {
-                    throw new Error('无法获取文件内容，状态码: ' + response.status);
-                }
-                
-                return await response.text();
-            } catch (error) {
-                throw new Error('获取文件内容失败: ' + error.message);
-            }
-        }
-        
-        // 解析Markdown内容
-        function parseRecipe(content, category, fileName) {
-            const recipe = {
-                name: fileName.replace('.md', ''),
-                category: category,
-                ingredients: [],
-                steps: [],
-                image: null
-            };
-            
-            // 解析菜名（第一个一级标题）
-            const titleMatch = content.match(/# (.+)/);
-            if (titleMatch) {
-                recipe.name = titleMatch[1];
-            }
-            
-            // 查找图片
-            const imageMatch = content.match(/!\[.+?\]\((.+?)\)/);
-            if (imageMatch) {
-                let imagePath = imageMatch[1];
-                // 确保图片链接是绝对URL
-                if (imagePath.startsWith('./')) {
-                    imagePath = imagePath.substring(2); // 移除开头的 ./
-                }
-                recipe.image = rawBase + imagePath;
-            }
-            
-            // 解析食材（二级标题后的列表项）
-            // 查找"原料"或"配料"部分
-            let ingredientsMatch = content.match(/## 原料[\s\S]+?(?=##|$)/);
-            if (!ingredientsMatch) {
-                ingredientsMatch = content.match(/## 配料[\s\S]+?(?=##|$)/);
-            }
-            if (ingredientsMatch) {
-                const ingredientsSection = ingredientsMatch[0];
-                const ingredientsList = ingredientsSection.match(/- (.+)/g);
-                if (ingredientsList) {
-                    recipe.ingredients = ingredientsList.map(item => item.replace('- ', ''));
-                }
-            }
-            
-            // 解析步骤（查找"步骤"或"做法"部分）
-            let stepsMatch = content.match(/## 步骤[\s\S]+?(?=##|$)/);
-            if (!stepsMatch) {
-                stepsMatch = content.match(/## 做法[\s\S]+?(?=##|$)/);
-            }
-            if (stepsMatch) {
-                const stepsSection = stepsMatch[0];
-                // 匹配 1. xxx 格式或者 - xxx 格式的步骤
-                const numberSteps = stepsSection.match(/\d+\. (.+?)(?=\d+\.|$)/gs);
-                const bulletSteps = stepsSection.match(/- (.+)/g);
-                
-                if (numberSteps) {
-                    recipe.steps = numberSteps.map(step => step.trim());
-                } else if (bulletSteps) {
-                    recipe.steps = bulletSteps.map(step => step.replace('- ', ''));
-                }
-            }
-            
-            return recipe;
-        }
         
         // 随机选择一个食谱
-        async function getRandomRecipe() {
+        function getRandomRecipe() {
             resetUI();
             
             try {
-                // 获取菜谱分类目录
-                const dishesPath = 'dishes';
-                const categories = await fetchDirectory(dishesPath);
-                const validCategories = categories.filter(item => item.type === 'dir');
-                
-                if (validCategories.length === 0) {
-                    throw new Error('未找到任何食谱分类');
-                }
-                
-                // 随机选择一个分类
-                const randomCategory = validCategories[Math.floor(Math.random() * validCategories.length)];
-                const categoryName = randomCategory.name;
-                
-                // 获取该分类下的所有菜谱
-                const recipes = await fetchDirectory(randomCategory.path);
-                const mdRecipes = recipes.filter(item => item.name.endsWith('.md'));
-                
-                if (mdRecipes.length === 0) {
-                    throw new Error(`在 ${categoryName} 分类中未找到任何食谱`);
-                }
-                
-                // 随机选择一个菜谱
-                const randomRecipe = mdRecipes[Math.floor(Math.random() * mdRecipes.length)];
-                
-                // 获取菜谱内容
-                const content = await fetchFileContent(`${randomCategory.path}/${randomRecipe.name}`);
-                const recipeData = parseRecipe(content, categoryName, randomRecipe.name);
-                
-                displayRecipe(recipeData);
+                // 模拟加载延迟以增强用户体验
+                setTimeout(() => {
+                    // 随机选择一个菜谱
+                    const randomIndex = Math.floor(Math.random() * recipes.length);
+                    const recipe = recipes[randomIndex];
+                    
+                    displayRecipe(recipe);
+                }, 500); // 500毫秒的延迟
             } catch (error) {
-                handleError(error.message);
+                handleError(`加载菜谱失败: ${error.message}`);
             }
         }
         
@@ -280,24 +433,15 @@
             if (recipe.category && categoryMapping[recipe.category]) {
                 const badge = document.createElement('span');
                 badge.className = 'category-badge';
-                badge.textContent = categoryMapping[recipe.category] || recipe.category;
+                badge.textContent = categoryMapping[recipe.category];
                 categoryElem.appendChild(badge);
-            }
-            
-            // 显示图片
-            const imageElem = document.getElementById('recipeImage');
-            if (recipe.image) {
-                imageElem.src = recipe.image;
-                imageElem.style.display = 'block';
-            } else {
-                imageElem.style.display = 'none';
             }
             
             // 显示食材
             const ingredientsList = document.getElementById('ingredientsList');
             ingredientsList.innerHTML = '';
             
-            if (recipe.ingredients.length > 0) {
+            if (recipe.ingredients && recipe.ingredients.length > 0) {
                 recipe.ingredients.forEach(ingredient => {
                     const li = document.createElement('li');
                     li.className = 'list-group-item';
@@ -315,18 +459,11 @@
             const stepsList = document.getElementById('stepsList');
             stepsList.innerHTML = '';
             
-            if (recipe.steps.length > 0) {
+            if (recipe.steps && recipe.steps.length > 0) {
                 recipe.steps.forEach((step, index) => {
                     const div = document.createElement('div');
                     div.className = 'step';
-                    
-                    // 如果步骤本身已经包含数字序号，则直接显示
-                    if (step.match(/^\d+\./)) {
-                        div.innerHTML = step;
-                    } else {
-                        div.innerHTML = `<strong>${index + 1}.</strong> ${step}`;
-                    }
-                    
+                    div.innerHTML = `<strong>${index + 1}.</strong> ${step}`;
                     stepsList.appendChild(div);
                 });
             } else {
