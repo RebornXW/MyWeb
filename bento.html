@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bento Grid 设计展示</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    /* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* 卡片基础样式 */
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.2rem;
+}
+
+.card-body {
+    padding: 0 1.5rem 1.5rem;
+    flex-grow: 1;
+}
+
+.card-description {
+    color: #666;
+    line-height: 1.5;
+}
+
+/* 卡片变体样式 */
+/* 1. 基础卡片 */
+.card-basic {
+    border: 1px solid #eaeaea;
+}
+
+/* 2. 渐变背景卡片 */
+.card-gradient {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+
+/* 3. 暗色主题卡片 */
+.card-dark {
+    background: #2d3748;
+    color: white;
+}
+
+.card-dark .card-description {
+    color: #cbd5e0;
+}
+
+/* 4. 边框高亮卡片 */
+.card-border-highlight {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+}
+
+.card-border-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -2px;
+    border-radius: inherit;
+    background: linear-gradient(to right, #6e8efb, #a777e3);
+}
+
+/* 5. 圆角大卡片 */
+.card-rounded {
+    border-radius: 24px;
+}
+
+/* 6. 无阴影扁平卡片 */
+.card-flat {
+    box-shadow: none;
+    border: 1px solid #eaeaea;
+}
+
+/* 7. 图标背景卡片 */
+.card-icon-bg .card-icon {
+    background-color: #f0f4ff;
+    color: #4c6ef5;
+}
+
+/* 8. 顶部彩条卡片 */
+.card-top-bar {
+    position: relative;
+}
+
+.card-top-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+}
+
+/* 9. 悬浮按钮卡片 */
+.card-floating-button {
+    position: relative;
+    padding-bottom: 3rem;
+}
+
+.card-floating-button .card-button {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: #4c6ef5;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.card-floating-button .card-button:hover {
+    background: #364fc7;
+}
+
+/* 10. 霓虹边框卡片 */
+.card-neon {
+    border: 1px solid #00f2fe;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+}
+
+/* 11. 玻璃态卡片 */
+.card-glassmorphism {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* 12. 3D悬浮卡片 */
+.card-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card-3d:hover {
+    transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
+}
+
+/* 13. 极简卡片 */
+.card-minimalist {
+    background: #fafafa;
+    box-shadow: none;
+    border: 1px solid #f0f0f0;
+}
+
+/* 14. 纹理背景卡片 */
+.card-textured {
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f0f0f0' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* 15. 阴影强调卡片 */
+.card-shadow-emphasis {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 16. 边角装饰卡片 */
+.card-corner-decorated {
+    position: relative;
+}
+
+.card-corner-decorated::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, transparent 50%, #6e8efb 50%);
+}
+
+/* 17. 双色调卡片 */
+.card-duotone {
+    background: linear-gradient(45deg, #f8f9fa 50%, #e9ecef 50%);
+}
+
+/* 18. 波浪边框卡片 */
+.card-wavy-border {
+    border: none;
+    background: white;
+    position: relative;
+}
+
+.card-wavy-border::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    background: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+    border-radius: 18px;
+    mask: radial-gradient(5px at 5px 5px, #0000 98%, #000) -5px -5px;
+}
+
+/* 19. 折纸风格卡片 */
+.card-origami {
+    position: relative;
+}
+
+.card-origami::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 0 25px 25px 0;
+    border-color: transparent #6e8efb transparent transparent;
+}
+
+/* 20. 复古风格卡片 */
+.card-retro {
+    background: #f8f9fa;
+    border: 2px solid #343a40;
+    box-shadow: 4px 4px 0 #343a40;
+}
+
+/* 21. 未来科技卡片 */
+.card-futuristic {
+    background: #0d1117;
+    color: #58a6ff;
+    border: 1px solid #30363d;
+}
+
+.card-futuristic .card-description {
+    color: #8b949e;
+}
+
+/* 22. 自然风格卡片 */
+.card-nature {
+    background: #f1f8e9;
+    border: 1px solid #c5e1a5;
+}
+
+/* 23. 几何图形卡片 */
+.card-geometric {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* 24. 手绘风格卡片 */
+.card-hand-drawn {
+    border: 2px solid #333;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+/* 25. 材质卡片 */
+.card-material {
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+/* 26. 动态边框卡片 */
+.card-animated-border {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-animated-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    z-index: -1;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400% 400%;
+    animation: borderGradient 3s ease infinite;
+    border-radius: inherit;
+}
+
+@keyframes borderGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 27. 信息卡片 */
+.card-info {
+    border-left: 4px solid #0d6efd;
+}
+
+/* 28. 成就卡片 */
+.card-achievement {
+    background: linear-gradient(135deg, #f5f7fa 0%, #fad0c4 100%);
+}
+
+/* 29. 社交媒体卡片 */
+.card-social {
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 30. 引用卡片 */
+.card-quote {
+    background: #f8f9fa;
+    border-left: 4px solid #6c757d;
+    font-style: italic;
+}
+
+/* 31. 统计卡片 */
+.card-stats {
+    background: #f8f9fa;
+    border-bottom: 4px solid #0d6efd;
+}
+
+/* 32. 通知卡片 */
+.card-notification {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+/* 33. 时间线卡片 */
+.card-timeline {
+    border-left: 4px solid #6c757d;
+    margin-left: 20px;
+    position: relative;
+}
+
+.card-timeline::before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #6c757d;
+    left: -10px;
+    top: 20px;
+}
+
+/* 34. 产品卡片 */
+.card-product {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* 35. 博客卡片 */
+.card-blog {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 36. 团队成员卡片 */
+.card-team-member {
+    text-align: center;
+}
+
+.card-team-member .card-icon {
+    margin: 0 auto 1rem;
+    width: 80px;
+    height: 80px;
+}
+
+/* 37. 价格卡片 */
+.card-pricing {
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+/* 38. 特性卡片 */
+.card-feature {
+    background: #f8f9fa;
+    border-top: 4px solid #0d6efd;
+}
+
+/* 39. 联系卡片 */
+.card-contact {
+    background: #f8f9fa;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 40. 下载卡片 */
+.card-download {
+    background: #e9ecef;
+    border: 1px dashed #adb5bd;
+}
+
+/* 41. 上传卡片 */
+.card-upload {
+    background: #f8f9fa;
+    border: 2px dashed #ced4da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 42. 设置卡片 */
+.card-settings {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+/* 43. 日历卡片 */
+.card-calendar {
+    background: #fff;
+    border: 1px solid #dee2e6;
+}
+
+/* 44. 天气卡片 */
+.card-weather {
+    background: linear-gradient(to right, #00c6fb, #005bea);
+    color: white;
+}
+
+.card-weather .card-description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* 45. 音乐卡片 */
+.card-music {
+    background: #212529;
+    color: white;
+}
+
+.card-music .card-description {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 46. 视频卡片 */
+.card-video {
+    background: #000;
+    color: white;
+}
+
+.card-video .card-description {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 47. 地图卡片 */
+.card-map {
+    background: #e9ecef;
+    border: 1px solid #ced4da;
+}
+
+/* 48. 评分卡片 */
+.card-rating {
+    background: #fff;
+    border: 1px solid #dee2e6;
+}
+
+/* 49. 进度卡片 */
+.card-progress {
+    background: #fff;
+    border: 1px solid #dee2e6;
+}
+
+/* 50. 倒计时卡片 */
+.card-countdown {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    text-align: center;
+}
+
+/* 51. 标签卡片 */
+.card-tags {
+    background: #fff;
+    border: 1px solid #dee2e6;
+}
+
+/* 52. 书签卡片 */
+.card-bookmark {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    position: relative;
+}
+
+.card-bookmark::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 20px;
+    width: 20px;
+    height: 30px;
+    background: #dc3545;
+    border-radius: 0 0 10px 10px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        padding: 0 1rem 3rem;
+    }
+    
+    header {
+        padding: 2rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: #2d3748;
+    color: white;
+    margin-top: 2rem;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* 卡片点击动画 */
+@keyframes cardClick {
+    0% { transform: scale(1); }
+    30% { transform: scale(0.99); }
+    60% { transform: scale(0.995); }
+    100% { transform: scale(1); }
+}
+
+.card-clicked {
+    animation: cardClick 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* 为每个卡片设置不同的动画延迟 */
+.card:nth-child(n) {
+    animation-delay: calc(0.05s * var(--card-index, 0));
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bento Grid 设计展示</h1>
+        <p>50+ 种现代化卡片设计风格</p>
+    </header>
+
+    <main class="container">
+        <!-- 卡片将通过JavaScript动态生成 -->
+    </main>
+
+    <footer>
+        <p>© 2025 Bento Grid 设计展示 | 现代化网页设计 | by xwxxw</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.container');
+    
+    // 卡片数据 - 50+ 种不同风格的卡片
+    const cards = [
+        {
+            title: '基础卡片',
+            description: '简洁的基础卡片设计，适用于各种内容展示',
+            icon: 'fa-solid fa-square',
+            className: 'card-basic'
+        },
+        {
+            title: '渐变背景卡片',
+            description: '使用渐变色背景的现代卡片设计',
+            icon: 'fa-solid fa-palette',
+            className: 'card-gradient'
+        },
+        {
+            title: '暗色主题卡片',
+            description: '深色背景的卡片设计，适合夜间模式',
+            icon: 'fa-solid fa-moon',
+            className: 'card-dark'
+        },
+        {
+            title: '边框高亮卡片',
+            description: '带有彩色渐变边框的精美卡片',
+            icon: 'fa-solid fa-border-all',
+            className: 'card-border-highlight'
+        },
+        {
+            title: '圆角大卡片',
+            description: '更大圆角的柔和卡片设计',
+            icon: 'fa-solid fa-circle',
+            className: 'card-rounded'
+        },
+        {
+            title: '扁平卡片',
+            description: '无阴影的扁平化设计风格',
+            icon: 'fa-solid fa-square',
+            className: 'card-flat'
+        },
+        {
+            title: '图标背景卡片',
+            description: '带有特殊图标背景的卡片',
+            icon: 'fa-solid fa-icons',
+            className: 'card-icon-bg'
+        },
+        {
+            title: '顶部彩条卡片',
+            description: '顶部带有彩色条纹的卡片设计',
+            icon: 'fa-solid fa-paint-roller',
+            className: 'card-top-bar'
+        },
+        {
+            title: '悬浮按钮卡片',
+            description: '右下角带有悬浮操作按钮的卡片',
+            icon: 'fa-solid fa-hand-pointer',
+            className: 'card-floating-button',
+            button: '查看详情'
+        },
+        {
+            title: '霓虹边框卡片',
+            description: '带有霓虹灯效果边框的卡片',
+            icon: 'fa-solid fa-lightbulb',
+            className: 'card-neon'
+        },
+        {
+            title: '玻璃态卡片',
+            description: '模拟磨砂玻璃效果的现代卡片',
+            icon: 'fa-solid fa-glasses',
+            className: 'card-glassmorphism'
+        },
+        {
+            title: '3D悬浮卡片',
+            description: '具有3D悬浮效果的立体卡片',
+            icon: 'fa-solid fa-cube',
+            className: 'card-3d'
+        },
+        {
+            title: '极简卡片',
+            description: '极简主义设计风格的卡片',
+            icon: 'fa-solid fa-minus',
+            className: 'card-minimalist'
+        },
+        {
+            title: '纹理背景卡片',
+            description: '带有精致纹理背景的卡片',
+            icon: 'fa-solid fa-chess-board',
+            className: 'card-textured'
+        },
+        {
+            title: '阴影强调卡片',
+            description: '使用强烈阴影效果的卡片设计',
+            icon: 'fa-solid fa-sun',
+            className: 'card-shadow-emphasis'
+        },
+        {
+            title: '边角装饰卡片',
+            description: '边角带有装饰元素的精美卡片',
+            icon: 'fa-solid fa-star',
+            className: 'card-corner-decorated'
+        },
+        {
+            title: '双色调卡片',
+            description: '使用双色调设计的现代卡片',
+            icon: 'fa-solid fa-adjust',
+            className: 'card-duotone'
+        },
+        {
+            title: '波浪边框卡片',
+            description: '边框带有波浪效果的创意卡片',
+            icon: 'fa-solid fa-water',
+            className: 'card-wavy-border'
+        },
+        {
+            title: '折纸风格卡片',
+            description: '模拟折纸艺术效果的卡片设计',
+            icon: 'fa-solid fa-paper-plane',
+            className: 'card-origami'
+        },
+        {
+            title: '复古风格卡片',
+            description: '带有复古设计元素的怀旧卡片',
+            icon: 'fa-solid fa-clock-rotate-left',
+            className: 'card-retro'
+        },
+        {
+            title: '未来科技卡片',
+            description: '具有未来科技感的现代卡片',
+            icon: 'fa-solid fa-microchip',
+            className: 'card-futuristic'
+        },
+        {
+            title: '自然风格卡片',
+            description: '灵感来自自然元素的有机卡片设计',
+            icon: 'fa-solid fa-leaf',
+            className: 'card-nature'
+        },
+        {
+            title: '几何图形卡片',
+            description: '使用几何图形元素的现代卡片',
+            icon: 'fa-solid fa-shapes',
+            className: 'card-geometric'
+        },
+        {
+            title: '手绘风格卡片',
+            description: '模拟手绘效果的艺术卡片',
+            icon: 'fa-solid fa-pencil',
+            className: 'card-hand-drawn'
+        },
+        {
+            title: '材质卡片',
+            description: '模拟真实材质效果的卡片设计',
+            icon: 'fa-solid fa-layer-group',
+            className: 'card-material'
+        },
+        {
+            title: '动态边框卡片',
+            description: '边框带有动态效果的互动卡片',
+            icon: 'fa-solid fa-spinner',
+            className: 'card-animated-border'
+        },
+        {
+            title: '信息卡片',
+            description: '专为信息展示优化的卡片设计',
+            icon: 'fa-solid fa-info',
+            className: 'card-info'
+        },
+        {
+            title: '成就卡片',
+            description: '展示成就和里程碑的特殊卡片',
+            icon: 'fa-solid fa-trophy',
+            className: 'card-achievement'
+        },
+        {
+            title: '社交媒体卡片',
+            description: '类似社交媒体风格的内容卡片',
+            icon: 'fa-solid fa-share-nodes',
+            className: 'card-social'
+        },
+        {
+            title: '引用卡片',
+            description: '用于展示引用和testimonial的卡片',
+            icon: 'fa-solid fa-quote-left',
+            className: 'card-quote'
+        },
+        {
+            title: '统计卡片',
+            description: '展示数据和统计信息的专用卡片',
+            icon: 'fa-solid fa-chart-simple',
+            className: 'card-stats'
+        },
+        {
+            title: '通知卡片',
+            description: '用于显示通知和提醒的卡片设计',
+            icon: 'fa-solid fa-bell',
+            className: 'card-notification'
+        },
+        {
+            title: '时间线卡片',
+            description: '适用于时间线展示的特殊卡片',
+            icon: 'fa-solid fa-timeline',
+            className: 'card-timeline'
+        },
+        {
+            title: '产品卡片',
+            description: '专为产品展示设计的卡片',
+            icon: 'fa-solid fa-tag',
+            className: 'card-product'
+        },
+        {
+            title: '博客卡片',
+            description: '适合博客文章预览的卡片设计',
+            icon: 'fa-solid fa-newspaper',
+            className: 'card-blog'
+        },
+        {
+            title: '团队成员卡片',
+            description: '展示团队成员信息的专用卡片',
+            icon: 'fa-solid fa-user',
+            className: 'card-team-member'
+        },
+        {
+            title: '价格卡片',
+            description: '用于价格计划展示的特殊卡片',
+            icon: 'fa-solid fa-dollar-sign',
+            className: 'card-pricing'
+        },
+        {
+            title: '特性卡片',
+            description: '展示产品或服务特性的卡片',
+            icon: 'fa-solid fa-list-check',
+            className: 'card-feature'
+        },
+        {
+            title: '联系卡片',
+            description: '用于联系信息展示的卡片设计',
+            icon: 'fa-solid fa-address-card',
+            className: 'card-contact'
+        },
+        {
+            title: '下载卡片',
+            description: '用于文件下载的专用卡片',
+            icon: 'fa-solid fa-download',
+            className: 'card-download'
+        },
+        {
+            title: '上传卡片',
+            description: '用于文件上传的交互式卡片',
+            icon: 'fa-solid fa-upload',
+            className: 'card-upload'
+        },
+        {
+            title: '设置卡片',
+            description: '用于设置和配置的功能卡片',
+            icon: 'fa-solid fa-gear',
+            className: 'card-settings'
+        },
+        {
+            title: '日历卡片',
+            description: '展示日期和事件的日历卡片',
+            icon: 'fa-solid fa-calendar',
+            className: 'card-calendar'
+        },
+        {
+            title: '天气卡片',
+            description: '显示天气信息的专用卡片',
+            icon: 'fa-solid fa-cloud-sun',
+            className: 'card-weather'
+        },
+        {
+            title: '音乐卡片',
+            description: '用于音乐播放和展示的卡片',
+            icon: 'fa-solid fa-music',
+            className: 'card-music'
+        },
+        {
+            title: '视频卡片',
+            description: '用于视频内容展示的卡片',
+            icon: 'fa-solid fa-video',
+            className: 'card-video'
+        },
+        {
+            title: '地图卡片',
+            description: '集成地图功能的专用卡片',
+            icon: 'fa-solid fa-map-location-dot',
+            className: 'card-map'
+        },
+        {
+            title: '评分卡片',
+            description: '带有评分功能的互动卡片',
+            icon: 'fa-solid fa-star-half-stroke',
+            className: 'card-rating'
+        },
+        {
+            title: '进度卡片',
+            description: '显示进度信息的专用卡片',
+            icon: 'fa-solid fa-gauge-high',
+            className: 'card-progress'
+        },
+        {
+            title: '倒计时卡片',
+            description: '带有倒计时功能的特殊卡片',
+            icon: 'fa-solid fa-hourglass-half',
+            className: 'card-countdown'
+        },
+        {
+            title: '标签卡片',
+            description: '使用标签组织内容的卡片设计',
+            icon: 'fa-solid fa-tags',
+            className: 'card-tags'
+        },
+        {
+            title: '书签卡片',
+            description: '用于保存书签的功能卡片',
+            icon: 'fa-solid fa-bookmark',
+            className: 'card-bookmark'
+        }
+    ];
+    
+    // 生成卡片并添加到容器中
+    cards.forEach((card, index) => {
+        // 创建卡片元素
+        const cardElement = document.createElement('div');
+        cardElement.className = `card ${card.className}`;
+        cardElement.style.setProperty('--card-index', index);
+        
+        // 创建卡片内容
+        let cardContent = `
+            <div class="card-header">
+                <h2 class="card-title">${card.title}</h2>
+                <div class="card-icon">
+                    <i class="${card.icon}"></i>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-description">${card.description}</p>
+            </div>
+        `;
+        
+        // 如果有按钮，添加按钮
+        if (card.button) {
+            cardContent += `<button class="card-button">${card.button}</button>`;
+        }
+        
+        // 设置卡片内容
+        cardElement.innerHTML = cardContent;
+        
+        // 添加到容器
+        container.appendChild(cardElement);
+    });
+    
+    // 添加卡片点击效果
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => {
+            // 添加点击动画或效果
+            card.classList.add('card-clicked');
+            
+            // 移除动画类（用于重置动画）
+            setTimeout(() => {
+                card.classList.remove('card-clicked');
+            }, 300);
+        });
+    });
+});
+    </script>
+</body>
+</html>

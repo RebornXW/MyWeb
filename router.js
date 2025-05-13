@@ -9,11 +9,11 @@ const searchInput = document.getElementById('searchInput');
 //    值 (value): 对应的本地 HTML 文件路径
 const routes = {
     "首页": "index.html", // 可以定义一个回到首页的词
-    "关于": "about.html",
+    "about": "about.html",
     "联系我们": "contact.html",
     "产品": "products.html",
     "帮助": "help/index.html", // 也可以指向子目录的文件
-    "page1": "page1.html",
+    "bento": "bento.html",
     // --- 在这里添加更多你的页面映射 ---
     "test": "test.html"
 };
