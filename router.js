@@ -10,9 +10,8 @@ const searchInput = document.getElementById('searchInput');
 const routes = {
     "首页": "index.html", // 可以定义一个回到首页的词
     "about": "about.html",
-    "联系我们": "contact.html",
-    "产品": "products.html",
-    "帮助": "help/index.html", // 也可以指向子目录的文件
+    "resources": "resources.html",
+    "recipe": "recipe.html", // 也可以指向子目录的文件
     "bento": "bento.html",
     // --- 在这里添加更多你的页面映射 ---
     "test": "test.html"
