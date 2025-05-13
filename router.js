@@ -14,6 +14,7 @@ const routes = {
     "recipe": "recipe.html", // 也可以指向子目录的文件
     "bento": "bento.html",
     "zyt": "zyt.html",
+    "zyt1": "zyt1.html",
     // --- 在这里添加更多你的页面映射 ---
     "test": "test.html"
 };

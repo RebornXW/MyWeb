@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青年律师个人主页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        :root {
+            --primary-gold: #FFD700; /* 主金色 */
+            --secondary-gold: #FFA500; /* 辅助橙金色 */
+            --light-gray-bg: #f8f9fa; /* 浅灰背景 */
+            --card-bg: #ffffff; /* 卡片背景 */
+            --text-dark: #333333;
+            --text-gray: #757575;
+            --text-light-gray: #adb5bd;
+            --border-radius: 20px;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--light-gray-bg);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-title h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--secondary-gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin: 5px 2px;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* For icon positioning */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            color: var(--secondary-gold);
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .medium-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .large-number {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: 5px 0;
+        }
+
+        .small-text {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+
+        .data-point {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Specific Card Layouts using grid span */
+        .profile-card {
+            grid-column: span 2; /* Example: Make this card wider */
+            grid-row: span 2;
+        }
+
+        .stats-card {
+            grid-column: span 2; /* Example: Make this card wider */
+        }
+
+        .qr-code-img {
+            display: block;
+            width: 150px;
+            height: 150px;
+            margin: 10px auto;
+            border-radius: 10px;
+            border: 1px solid var(--text-light-gray);
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .strengths-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .strengths-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .accent-icon {
+            color: var(--secondary-gold);
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            height: 10px;
+            margin: 10px 0 5px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 5px;
+            text-align: right;
+            color: white;
+            font-size: 0.8em; /* If you want to put text inside */
+        }
+
+        .stat-item {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .stats-card {
+            display: grid; /* Using grid for internal layout too */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            align-items: start; /* Align items to the start for better vertical alignment */
+            gap: 15px; /* Gap between stat items */
+        }
+
+
+        .page-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            border-top: 1px solid #e0e0e0;
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .profile-card {
+                grid-column: span 2; 
+                grid-row: auto; /* Reset row span */
+            }
+            .stats-card {
+                grid-column: span 2;
+            }
+            .bento-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust minmax for tablets */
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .header-title h1 {
+                font-size: 2.8rem;
+            }
+            .card-title {
+                font-size: 1.4rem;
+            }
+            .large-number {
+                font-size: 2.5rem;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr; /* Stack cards on mobile */
+            }
+            /* Reset all spans for mobile */
+            .profile-card, .stats-card, .card {
+                grid-column: span 1 !important;
+                grid-row: auto !important;
+            }
+            .stats-card { /* Adjust internal layout for stats card on mobile */
+                grid-template-columns: 1fr; /* Stack stat items vertically */
+            }
+            .stat-item {
+                margin-bottom: 25px; /* More space between stacked items */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title h1 {
+                font-size: 2.2rem;
+            }
+            .card {
+                padding: 20px;
+            }
+            .card-title {
+                font-size: 1.2rem;
+            }
+            .large-number {
+                font-size: 2rem;
+            }
+            .small-text {
+                font-size: 0.9rem;
+            }
+            .tag {
+                padding: 4px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-title">
+        <h1 class="gradient-text">周玉婷律师</h1>
+        <span class="tag">青年律师</span>
+    </div>
+
+    <div class="bento-grid">
+        <!-- 卡片 1: 个人档案 -->
+        <div class="card profile-card">
+            <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+            <h2 class="card-title">个人档案</h2>
+            <p class="small-text">执业证号: <span class="data-point">888888888888888</span></p>
+            <p class="small-text">所属律所: <span class="data-point">浙江泽厚律师事务所</span></p>
+            <p class="small-text">律所地址: <span class="data-point">嘉兴市南湖区台升国际广场A座9楼</span></p>
+            <p class="small-text">专注领域: <span class="data-point">交通事故、合同纠纷、婚姻家事</span></p>
+        </div>
+
+        <!-- 卡片 2: 联系方式 -->
+        <div class="card contact-card">
+            <div class="card-icon"><i class="fas fa-phone-alt"></i></div>
+            <h2 class="card-title">快速联系</h2>
+            <p class="small-text">手机号码:</p>
+            <p class="large-number gradient-text">18558235085</p>
+            <p class="small-text">电子邮箱:</p>
+            <p class="data-point">xwxxw@qq.com</p>
+        </div>
+
+        <!-- 卡片 3: 微信二维码 -->
+        <div class="card qr-code-card">
+            <div class="card-icon"><i class="fab fa-weixin"></i></div>
+            <h2 class="card-title">微信咨询</h2>
+            <img src="https://via.placeholder.com/150/FFE0B2/000000?Text=微信二维码" alt="微信二维码" class="qr-code-img">
+            <p class="small-text" style="text-align: center;">扫码添加好友</p>
+        </div>
+
+        <!-- 卡片 4: 专业领域 -->
+        <div class="card expertise-card">
+            <div class="card-icon"><i class="fas fa-gavel"></i></div>
+            <h2 class="card-title">专业领域</h2>
+            <div class="tags-container">
+                <span class="tag">刑事辩护</span>
+                <span class="tag">合同纠纷</span>
+                <span class="tag">婚姻家事</span>
+                <span class="tag">公司法务</span>
+                <span class="tag">知识产权</span>
+            </div>
+        </div>
+
+        <!-- 卡片 5: 核心优势 -->
+        <div class="card strengths-card">
+            <div class="card-icon"><i class="fas fa-star"></i></div>
+            <h2 class="card-title">核心优势</h2>
+            <ul class="strengths-list small-text">
+                <li><i class="fas fa-check-circle accent-icon"></i> 严谨细致，逻辑清晰</li>
+                <li><i class="fas fa-check-circle accent-icon"></i> 庭审经验丰富</li>
+                <li><i class="fas fa-check-circle accent-icon"></i> 沟通能力强，善于谈判</li>
+                <li><i class="fas fa-check-circle accent-icon"></i> 高度责任心</li>
+            </ul>
+        </div>
+        
+        <!-- 卡片 6: 案件数据 -->
+        <div class="card stats-card">
+            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+            <h2 class="card-title">服务数据</h2>
+            <div class="stat-item">
+                <p class="small-text">成功代理案件</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 92%;"></div>
+                </div>
+                <p class="large-number gradient-text" style="font-size: 2.5rem; margin-top: 5px;">92%</p>
+                <p class="small-text">成功率</p>
+            </div>
+            <div class="stat-item">
+                <p class="small-text">已服务客户</p>
+                <p class="large-number gradient-text" style="font-size: 2.5rem; margin-top: 5px;">200+</p>
+                <p class="small-text">位</p>
+            </div>
+             <div class="stat-item">
+                <p class="small-text">客户满意度</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 95%; background: linear-gradient(90deg, #FFB74D, #FF9800);"></div>
+                </div>
+                <p class="large-number gradient-text" style="font-size: 2.5rem; margin-top: 5px;">4.9<span style="font-size:1.5rem; color: #757575;">/5</span></p>
+                 <p class="small-text">平均评分</p>
+            </div>
+        </div>
+
+        <!-- 卡片 7: 执业理念 -->
+        <div class="card philosophy-card">
+            <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+            <h2 class="card-title">执业理念</h2>
+            <p class="medium-title" style="margin-top: 20px;">"以法律智慧，<br>守护您的每一份权益。"</p>
+        </div>
+
+    </div>
+
+    <footer class="page-footer">
+        <p>© 2025 周律师. 保留所有权利.</p>
+        <p>本页面仅为演示目的，信息仅供参考。</p>
+    </footer>
+</body>
+</html>
