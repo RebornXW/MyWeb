@@ -15,6 +15,7 @@ const routes = {
     "bento": "bento.html",
     "zyt": "zyt.html",
     "zyt1": "zyt1.html",
+    "profile": "profile.html",
     // --- 在这里添加更多你的页面映射 ---
     "test": "test.html"
 };
