@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>进军香水世界 - 高端品牌战略指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide-static@latest/dist/lucide.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Modern sans-serif for body */
+            background-color: #121212; /* Deep charcoal/black background */
+            /* Example of a subtle texture/gradient - can be expanded */
+            background-image: 
+                linear-gradient(135deg, rgba(25, 25, 25, 0.95) 25%, transparent 25%),
+                linear-gradient(225deg, rgba(25, 25, 25, 0.95) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(25, 25, 25, 0.95) 25%, transparent 25%),
+                linear-gradient(315deg, rgba(25, 25, 25, 0.95) 25%, #121212 25%);
+            background-size: 40px 40px; /* Adjust for desired texture scale */
+            color: #E0E0E0; /* Light gray for text for contrast */
+            scroll-behavior: smooth;
+        }
+        .container {
+            max-width: 1400px; /* Wider container for less perceived white space */
+        }
+        .bento-box {
+            background-color: rgba(30, 30, 30, 0.85); /* Darker, slightly transparent boxes */
+            backdrop-filter: blur(15px);
+            border-radius: 1rem; /* Slightly less rounded, sharper */
+            padding: 1.25rem; /* Reduced padding */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 3px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid rgba(70, 70, 70, 0.5); /* Darker, more defined border */
+            margin-bottom: 1.25rem; 
+        }
+        .bento-box:hover {
+            transform: translateY(-3px) scale(1.01); /* Subtle lift and scale */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-color: rgba(150, 100, 200, 0.6); /* Purple glow on hover */
+        }
+        
+        /* --- HEADINGS --- */
+        h1 { /* Main Page Title */
+            font-family: 'Playfair Display', serif; /* Elegant, high-contrast serif */
+            color: #FFFFFF; /* White for max contrast */
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 15px rgba(173, 216, 230, 0.3); /* Subtle light blue/white glow */
+        }
+        h2.section-title { /* Main Section Titles (I, II, III...) */
+            font-family: 'Playfair Display', serif;
+            color: #A076F9; /* Vibrant Purple */
+            font-weight: 700;
+            border-bottom: 2px solid #6A0DAD; /* Darker purple underline */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem !important; /* Tailwind override */
+            font-size: 2.25rem; /* Larger */
+            letter-spacing: 0.02em;
+        }
+        h3.bento-title { /* Titles inside Bento boxes (A, B, C...) */
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700; /* Bold */
+            color: #50C878; /* Emerald Green */
+            font-size: 1.5rem; /* Increased size */
+            margin-bottom: 0.75rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        h4.sub-bento-title { /* Smaller titles within Bento or for sub-points */
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            color: #AFEEEE; /* Pale Turquoise / Light Cyan - as accent */
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .icon-style {
+            color: #50C878; /* Emerald Green for icons */
+            stroke-width: 1.8; /* Slightly thicker */
+            margin-right: 0.6rem; 
+            margin-bottom: 0.6rem; 
+        }
+        .highlight {
+            color: #F4D03F; /* Gold/Yellow for highlights */
+            font-weight: 500;
+        }
+        .chart-container {
+            width: 100%;
+            height: 260px; /* Adjusted height */
+        }
+        .tag {
+            background-color: rgba(80, 200, 120, 0.15); /* Translucent Green */
+            color: #98FB98; /* Pale Green text */
+            border: 1px solid rgba(80, 200, 120, 0.4);
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem; /* Sharper tags */
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-right: 0.4rem;
+            margin-bottom: 0.4rem;
+        }
+
+        /* --- TABLES --- */
+        table {
+            width: 100%;
+            border-collapse: separate; /* Allows for border-radius on cells */
+            border-spacing: 0;
+            margin-top: 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem; /* Slightly smaller for density */
+            box-shadow: 0 0 10px rgba(0,0,0,0.4) inset; /* Inset shadow for depth */
+        }
+        th, td {
+            border: 1px solid #2D2D2D; /* Darker internal borders */
+            padding: 0.6rem; /* Reduced padding */
+            text-align: left;
+            vertical-align: top;
+            background-color: rgba(40,40,40,0.7); /* Dark cell background */
+        }
+        th {
+            background-color: #202020; /* Even darker for header */
+            font-weight: 700; /* Bolder header text */
+            font-family: 'Roboto', sans-serif;
+            color: #A076F9; /* Purple for table headers */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        tr:hover td { /* Row hover effect */
+            background-color: rgba(80, 200, 120, 0.1); /* Subtle green glow on row hover */
+        }
+        caption {
+            caption-side: top;
+            font-weight: 500;
+            color: #AFEEEE;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            text-align: left;
+            margin-bottom: 0.25rem;
+        }
+        .table-wrapper {
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch;
+            border-radius: 0.5rem; /* Rounded corners for the wrapper */
+            border: 1px solid #333;
+        }
+
+        .content-section {
+            margin-bottom: 2rem; /* Reduced margin */
+            padding-bottom: 1.5rem; /* Reduced padding */
+            border-bottom: 1px dashed rgba(70, 70, 70, 0.6);
+        }
+        .content-section:last-child {
+            border-bottom: none;
+        }
+        .prose-custom p {
+            line-height: 1.65; /* Slightly tighter line height */
+            margin-bottom: 0.8rem; /* Reduced margin */
+            color: #B0B0B0; /* Slightly lighter gray for paragraphs for readability */
+        }
+        .prose-custom ul {
+            list-style-position: outside;
+            padding-left: 1.25rem;
+            margin-bottom: 0.8rem;
+        }
+        .prose-custom ul li {
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
+            color: #B0B0B0;
+        }
+        .prose-custom ul li strong {
+            color: #50C878; /* Green for strong text in lists */
+        }
+
+        /* Header Styling */
+        header.page-header {
+            text-align: center;
+            margin-bottom: 2.5rem; /* Adjusted margin */
+            padding: 2rem 1rem; /* Adjusted padding */
+            background: linear-gradient(145deg, #1a1a1a, #2c2c2c); /* Dark gradient for header */
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+        header.page-header h1 {
+             font-size: 3rem; /* Responsive font size */
+        }
+        @media (min-width: 768px) {
+            header.page-header h1 {
+                font-size: 3.75rem;
+            }
+        }
+        header.page-header p {
+            font-size: 1.1rem;
+            color: #A0A0A0; /* Muted gray for subtitle */
+        }
+        
+        /* Footer Styling */
+        footer.page-footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 1rem;
+            border-top: 1px solid #333;
+            color: #777;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto p-4 md:p-6">
+        <header class="page-header">
+            <h1>进军<span class="highlight">香水</span>世界</h1>
+            <p class="text-lg md:text-xl">高端品牌战略指南</p>
+        </header>
+
+        <main class="prose-custom">
+
+            <!-- I. 香水的本质 -->
+            <section id="section1" class="content-section">
+                <h2 class="section-title text-3xl mb-6 flex items-center"><i data-lucide="gem" class="icon-style w-8 h-8"></i>I. 香水的本质：深入了解产品</h2>
+                <p>对于任何有志于进入香水行业的创业者而言，深刻理解产品本身是构建成功品牌的第一步。这包括香水的核心构成、分类方式、关键成分、调制技艺、深厚的历史底蕴以及至关重要的安全标准。</p>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bento-box md:col-span-2">
+                        <h3 class="bento-title flex items-center"><i data-lucide="binary" class="icon-style w-6 h-6"></i>A. 解码香氛：香调、香型与浓度</h3>
+                        <p>香水的分类与特性由其芳香化合物的浓度、香气的层级结构（香调）以及主导的嗅觉特征（香型）共同决定。</p>
+                        <h4 class="sub-bento-title mt-3">香水浓度 (Fragrance Concentrations)</h4>
+                        <p>浓度直接影响香水的持久度和浓郁度。全球<span class="highlight">淡香精（EDP）</span>市场在2023年占据主导。中国市场初用者倾向于<span class="highlight">淡香水（EDT）</span>。</p>
+                        <div class="chart-container my-3">
+                            <div id="concentrationChart" style="width:100%; height:100%;"></div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <caption>表1：香水浓度类型</caption>
+                                <thead>
+                                    <tr>
+                                        <th>浓度类型</th>
+                                        <th>芳香化合物浓度</th>
+                                        <th>留香时间（约）</th>
+                                        <th>主要特点</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>香精 (Parfum)</td><td>20-40%</td><td>6-8小时</td><td>最浓郁持久，价格较高</td></tr>
+                                    <tr><td>浓香水 (EDP)</td><td>10-20%</td><td>4-5小时</td><td>市场主流，均衡</td></tr>
+                                    <tr><td>淡香水 (EDT)</td><td>5-15%</td><td>2-3小时</td><td>香气淡雅，日常用</td></tr>
+                                    <tr><td>古龙水 (EDC)</td><td>3-6%</td><td>最多2小时</td><td>清新爽朗，夏季用</td></tr>
+                                    <tr><td>清香水 (Eau Fraiche)</td><td>2-5%</td><td>1-2小时</td><td>最清淡，身体喷雾</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h4 class="sub-bento-title mt-3">香调 (Fragrance Notes)</h4>
+                        <p>艾梅·娇兰开创的“三段式”结构：</p>
+                        <ul class="list-none pl-0 space-y-1 my-2">
+                            <li><strong class="text-purple-400">前调:</strong> 第一印象，清新易逝</li>
+                            <li><strong class="text-green-400">中调:</strong> 香水核心，主体特征</li>
+                            <li><strong class="text-yellow-400">后调:</strong> 持久基调，深度稳重</li>
+                        </ul>
+                        <h4 class="sub-bento-title mt-3">香型/嗅觉家族 (Fragrance Families)</h4>
+                        <p>选择合适的香型是品牌战略的关键。</p>
+                        <div class="table-wrapper">
+                            <table>
+                                <caption>表2：常见香水香型</caption>
+                                <thead><tr><th>香型</th><th>代表性香料</th><th>嗅觉特征</th></tr></thead>
+                                <tbody>
+                                    <tr><td>柑橘调</td><td>佛手柑、柠檬</td><td>清新、明快</td></tr>
+                                    <tr><td>花香调</td><td>玫瑰、茉莉</td><td>优雅、浪漫</td></tr>
+                                    <tr><td>木质调</td><td>雪松、檀香</td><td>沉稳、温暖</td></tr>
+                                    <tr><td>东方调</td><td>香草、琥珀</td><td>浓郁、性感</td></tr>
+                                    <!-- Add more rows as needed -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                    <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="flask-conical" class="icon-style w-6 h-6"></i>B. 香料的调色盘</h3>
+                        <h4 class="sub-bento-title">天然与合成成分</h4>
+                        <p>多数现代香水融合天然与合成香料。“纯净之美”和可持续发展是趋势。</p>
+                        <ul class="mt-2 text-sm">
+                            <li><strong class="highlight">天然:</strong> 品质高，香气复杂，成本/供应不稳定。</li>
+                            <li><strong class="highlight">合成:</strong> 稳定，成本效益高，可创造新香气。</li>
+                        </ul>
+                    </div>
+                    <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="atom" class="icon-style w-6 h-6"></i>C. 调香的艺术与科学</h3>
+                         <h4 class="sub-bento-title">调制技艺与流程</h4>
+                        <p>传统与现代提取方法并存。流程：构思 → 配方 → 熟成 → 稀释 → 过滤等。</p>
+                    </div>
+                    <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="landmark" class="icon-style w-6 h-6"></i>D. 香史钩沉</h3>
+                         <h4 class="sub-bento-title">香水的文化之旅</h4>
+                        <p>源自古埃及，法国格拉斯成“香水之都”。合成香料推动工业化。</p>
+                    </div>
+                    <div class="bento-box lg:col-span-3"> {/* Make safety span full width */}
+                        <h3 class="bento-title flex items-center"><i data-lucide="shield-check" class="icon-style w-6 h-6"></i>E. 安全至上：国际标准与最佳实践</h3>
+                        <p>IFRA标准是全球公认的行业自我规范。过敏原标签要求趋严。GMP (ISO 22716) 确保生产质量。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- II. 市场导航 -->
+            <section id="section2" class="content-section">
+                <h2 class="section-title text-3xl mb-6 flex items-center"><i data-lucide="map" class="icon-style w-8 h-8"></i>II. 市场导航：消费者与竞争格局</h2>
+                <p>深入洞察目标消费者、把握市场动态及趋势、清晰认知竞争格局，是香水初创品牌制定有效市场策略、找准定位的关键。</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="users-2" class="icon-style w-6 h-6"></i>A. 理想顾客画像</h3>
+                        <p>Z世代和千禧一代是重要驱动力。<span class="highlight">“悦己”</span>是首要购买动因。</p>
+                         <div class="table-wrapper mt-2">
+                            <table>
+                                <caption>表3：主要香水消费群体 (部分)</caption>
+                                <thead><tr><th>群体</th><th>特征</th><th>驱动因素</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Z世代</td><td>年轻、数字化</td><td>自我表达、情绪价值</td></tr>
+                                    <tr><td>千禧一代</td><td>职场主力、重品质</td><td>品牌故事、个性化</td></tr>
+                                    <tr><td>中国年轻消费者</td><td>受国潮影响、悦己</td><td>香味、喜好、国潮</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                     <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="trending-up" class="icon-style w-6 h-6"></i>B. 市场概览与趋势</h3>
+                        <p>全球市场2023年约<span class="highlight">528-580亿</span>美元。中国市场潜力巨大。</p>
+                        <div class="chart-container my-3">
+                            <div id="marketChart" style="width:100%; height:100%;"></div>
+                        </div>
+                         <div class="table-wrapper mt-2">
+                            <table>
+                                <caption>表4：全球及主要区域市场 (部分)</caption>
+                                <thead><tr><th>区域</th><th>规模 (2023/24)</th><th>CAGR</th><th>趋势</th></tr></thead>
+                                <tbody>
+                                    <tr><td>全球</td><td>~550亿美元</td><td>5.5-6.3%</td><td>高端化, 小众化</td></tr>
+                                    <tr><td>中国</td><td>~207亿RMB</td><td>>20%</td><td>渗透率低, 国潮兴起</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="mt-2 font-medium">趋势: 高端化, 小众化, 个性化, 可持续, 数字化, 家居香氛, 中性化。</p>
+                    </div>
+                </div>
+                 <div class="bento-box mt-4">
+                    <h3 class="bento-title flex items-center"><i data-lucide="swords" class="icon-style w-6 h-6"></i>C. 竞争舞台剖析</h3>
+                    <p>国际巨头、小众品牌、本土新秀同台竞技。</p>
+                     <div class="table-wrapper mt-2">
+                        <table>
+                            <caption>表5：主要竞争对手层级 (部分)</caption>
+                            <thead><tr><th>层级</th><th>品牌示例</th><th>定位</th><th>营销点</th></tr></thead>
+                            <tbody>
+                                <tr><td>国际奢华</td><td>Chanel, Dior</td><td>顶级奢华</td><td>品牌传奇, 稀有原料</td></tr>
+                                <tr><td>国际小众</td><td>Le Labo, Byredo</td><td>艺术性, 独特性</td><td>独特香调, 个性体验</td></tr>
+                                <tr><td>中国高端/小众</td><td>闻献, 观夏</td><td>东方美学, 高端</td><td>文化叙事, DTC模式</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- III. 缔造香气 -->
+            <section id="section3" class="content-section">
+                 <h2 class="section-title text-3xl mb-6 flex items-center"><i data-lucide="flask-round" class="icon-style w-8 h-8"></i>III. 缔造香气：供应链与生产</h2>
+                 <div class="grid md:grid-cols-3 gap-4">
+                     <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="package-search" class="icon-style w-6 h-6"></i>A. 原料与香精来源</h3>
+                        <p>F&F公司 (奇华顿, 芬美意等) 是重要伙伴。</p>
+                     </div>
+                     <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="package" class="icon-style w-6 h-6"></i>B. 包装的艺术</h3>
+                        <p>趋势: 可持续, 极简, 故事性。</p>
+                        <div class="table-wrapper mt-2">
+                            <table>
+                                <caption>表6：包装供应商 (部分)</caption>
+                                <thead><tr><th>供应商 (地区)</th><th>专长</th><th>考量</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Pochet du Courval (法)</td><td>高端玻璃瓶</td><td>MOQ高</td></tr>
+                                    <tr><td>ESTAL (西)</td><td>可持续玻璃瓶</td><td>低MOQ</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     </div>
+                     <div class="bento-box">
+                        <h3 class="bento-title flex items-center"><i data-lucide="factory" class="icon-style w-6 h-6"></i>C. 生产模式</h3>
+                        <p>OEM/ODM。关键标准: 经验, 质量, MOQ。</p>
+                        <div class="table-wrapper mt-2">
+                            <table>
+                                <caption>表7：OEM/ODM选择标准 (部分)</caption>
+                                <thead><tr><th>标准</th><th>重要性</th></tr></thead>
+                                <tbody>
+                                    <tr><td>质量控制</td><td>严格QC流程, ISO认证</td></tr>
+                                    <tr><td>MOQ</td><td>对初创企业关键</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     </div>
+                 </div>
+            </section>
+
+            <!-- IV. 法规迷宫 -->
+            <section id="section4" class="content-section">
+                <h2 class="section-title text-3xl mb-6 flex items-center"><i data-lucide="gavel" class="icon-style w-8 h-8"></i>IV. 法规迷宫：合规与法律要点</h2>
+                 <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bento-box">
+                        <h3 class="bento-title"><i data-lucide="file-badge-2" class="icon-style"></i>A&B. 生产许可与产品备案</h3>
+                        <p>GMP (ISO 22716) 是核心。中国NMPA, 欧盟CPNP, 美国FDA MoCRA各有要求。</p>
+                         <div class="table-wrapper mt-2">
+                            <table>
+                                <caption>表8：主要市场注册/备案 (部分)</caption>
+                                <thead><tr><th>方面</th><th>中国</th><th>欧盟</th><th>美国</th></tr></thead>
+                                <tbody>
+                                    <tr><td>类型</td><td>备案/注册</td><td>通报</td><td>列名</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="bento-box">
+                        <h3 class="bento-title"><i data-lucide="tags" class="icon-style"></i>C. 标签合规</h3>
+                        <p>需用销售地语言，过敏原标签日益重要。</p>
+                        <div class="table-wrapper mt-2">
+                            <table>
+                                <caption>表9：主要市场标签要求 (部分)</caption>
+                                <thead><tr><th>项目</th><th>中国</th><th>欧盟</th><th>美国</th></tr></thead>
+                                <tbody>
+                                    <tr><td>过敏原</td><td>未强制详列</td><td>80+种需列</td><td>MoCRA将规定</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="bento-box">
+                        <h3 class="bento-title"><i data-lucide="megaphone" class="icon-style"></i>D. 广告宣称</h3>
+                        <p>必须真实、有据可查。谨慎对待“天然”、“低敏”等。</p>
+                    </div>
+                    <div class="bento-box">
+                        <h3 class="bento-title"><i data-lucide="copyright" class="icon-style"></i>E. 知识产权</h3>
+                        <p>商标、外观专利、商业秘密 (配方)、版权。</p>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- V. 商业运营 -->
+            <section id="section5" class="content-section">
+                <h2 class="section-title text-3xl mb-6 flex items-center"><i data-lucide="briefcase" class="icon-style w-8 h-8"></i>V. 商业运营：打造成功的香水事业</h2>
+                <div class="bento-box">
+                    <h3 class="bento-title flex items-center"><i data-lucide="lightbulb" class="icon-style w-6 h-6"></i>A. 品牌灵魂：定位与故事塑造</h3>
+                    <p>清晰的品牌定位和引人入胜的品牌故事是差异化的关键。明确USP，追求<span class="highlight">真实性</span>、<span class="highlight">情感连接</span>。</p>
+                </div>
+            </section>
+
+            <div class="bento-box mt-8 text-center">
+                <i data-lucide="rocket" class="icon-style w-10 h-10 mx-auto"></i>
+                <h2 class="text-2xl font-bold mb-3" style="color: #F4D03F;">启程您的香氛传奇</h2>
+                <p class="text-md leading-relaxed">香水创业之路，挑战与机遇并存。“<span class="highlight">从小做起</span>”，持续学习，精雕细琢每一个环节，方能成就非凡品牌。</p>
+                <p class="text-md mt-2">愿您在馥郁芬芳中，铸就永恒经典。</p>
+            </div>
+        </main>
+
+        <footer class="page-footer">
+            <p class="text-sm">© 2024 香水品牌战略指南. 融汇深度洞察，赋能品牌梦想。</p>
+        </footer>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // ECharts - Concentration Chart
+        var concentrationChartEl = document.getElementById('concentrationChart');
+        if (concentrationChartEl) {
+            var concentrationChart = echarts.init(concentrationChartEl, 'dark'); // 'dark' theme
+            var concentrationOption = {
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+                grid: { left: '3%', right: '10%', bottom: '3%', top: '12%', containLabel: true },
+                xAxis: { type: 'value', boundaryGap: [0, 0.01], show: false },
+                yAxis: {
+                    type: 'category',
+                    data: ['清香水', '古龙水', '淡香水', '浓香水', '香精'],
+                    axisLabel: { fontSize: 10, color: '#A0A0A0', interval: 0 },
+                    axisLine: { lineStyle: { color: '#444' } },
+                    axisTick: { show: false }
+                },
+                series: [{
+                    name: '浓度%',
+                    type: 'bar',
+                    data: [
+                        { value: 3.5, itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0, [{offset:0, color:'#3D2C8D'}, {offset:1, color:'#916DB3'}]) } },
+                        { value: 4.5, itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0, [{offset:0, color:'#285430'}, {offset:1, color:'#5F8D4E'}]) } },
+                        { value: 10, itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0, [{offset:0, color:'#4A0D66'}, {offset:1, color:'#8200A7'}]) } },
+                        { value: 17.5, itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0, [{offset:0, color:'#1E5128'}, {offset:1, color:'#4E9F3D'}]) } },
+                        { value: 30, itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0, [{offset:0, color:'#6A0DAD'}, {offset:1, color:'#C459E0'}]) } }
+                    ],
+                    label: { show: true, position: 'right', formatter: '{c}%', color: '#E0E0E0', fontSize: 9 },
+                    barWidth: '45%',
+                    itemStyle: { borderRadius: [0, 3, 3, 0] }
+                }]
+            };
+            concentrationChart.setOption(concentrationOption);
+            window.addEventListener('resize', () => concentrationChart.resize());
+        }
+
+        // ECharts - Market Growth Chart
+        var marketChartEl = document.getElementById('marketChart');
+        if (marketChartEl) {
+            var marketChart = echarts.init(marketChartEl, 'dark'); // 'dark' theme
+            var marketOption = {
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'axis' },
+                legend: { data: ['市场规模(亿美元)'], top: 'bottom', textStyle: {color: '#A0A0A0'} },
+                grid: { left: '3%', right: '4%', bottom: '15%', top:'15%', containLabel: true },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['2023', '2024', '2025', '2028', '2031'],
+                    axisLabel: {color: '#A0A0A0'},
+                    axisLine: { lineStyle: { color: '#444' } }
+                },
+                yAxis: { 
+                    type: 'value', 
+                    name: '亿美元', 
+                    axisLabel: {color: '#A0A0A0', formatter: '{value}'}, 
+                    nameTextStyle: {color: '#A0A0A0'},
+                    splitLine: { lineStyle: { color: '#2A2A2A' } }, // Darker grid lines
+                    axisLine: { lineStyle: { color: '#444' } }
+                },
+                series: [{
+                    name: '市场规模(亿美元)',
+                    type: 'line',
+                    smooth: true,
+                    data: [550, 580, 615, 720, 800], // Example data
+                    itemStyle: { color: '#F4D03F' }, // Gold line
+                    lineStyle: { color: '#F4D03F', width: 2.5 },
+                    areaStyle: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(244, 208, 63, 0.3)' // Gold area fill
+                        }, {
+                            offset: 1,
+                            color: 'rgba(244, 208, 63, 0.05)'
+                        }])
+                    }
+                }]
+            };
+            marketChart.setOption(marketOption);
+            window.addEventListener('resize', () => marketChart.resize());
+        }
+    </script>
+</body>
+</html>
